@@ -1,0 +1,42 @@
+<!--  - Write a program to throttle using closures -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="counter"></h1>
+    <button id="btn">Throttler Button</button>
+
+    <script type="text/javascript">
+        
+        let c = 0;
+        const costlyTask = () => {
+            c++;
+            printCounter(c);
+        }
+        const throttler = (fn,wait) => {
+            let time = Date.now();
+            return () => {
+                let now = Date.now();
+
+                if(now - time > wait){
+                    time = now;
+                    fn()
+                }
+            }
+        }
+
+        const btn = document.getElementById("btn");
+        btn.addEventListener("click", throttler(costlyTask,1000))
+
+        const printCounter = (c) => {
+            const counter = document.getElementById("counter");
+            counter.textContent = c
+        }
+    </script>
+</body>
+</html>
